@@ -11,7 +11,8 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String description = '';
+  String description = 'My great package';
+  final _controller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -70,15 +71,20 @@ class _MyAppState extends State<MyApp> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: MarkdownTextInput(
-                              (String value) =>
+                              initialValue: description,
+                              controller: _controller,
+                              onTextChanged: (String value) =>
                                   setState(() => description = value),
-                              description,
                               maxLines: 8,
                               inputDecoration: InputDecoration(
                                 hintText: 'What to type here?',
                                 labelText: 'Nice Label',
                                 helperText: 'Some Helper text',
                               ),
+                              validator: (text) =>
+                                  text != null && text.length > 20
+                                      ? 'Text to Long!'
+                                      : null,
                             ),
                           ),
                           Padding(

@@ -4,16 +4,15 @@ import 'package:markdown_editable_textinput/format_markdown.dart';
 /// Widget with markdown buttons
 class MarkdownTextInput extends StatefulWidget {
   /// Callback called when text changed
-  final Function onTextChanged;
+  final void Function(String)? onTextChanged;
 
   /// Initial value you want to display
-  final String initialValue;
+  final String? initialValue;
 
   /// Validator for the TextFormField
-  final String Function(String? value)? validators;
+  final String? Function(String?)? validator;
 
   /// String displayed at hintText in TextFormField
-  @Deprecated('Use inputDecoration.hintText instead).')
   final String label;
 
   /// Change the text direction of the input (RTL / LTR)
@@ -25,15 +24,22 @@ class MarkdownTextInput extends StatefulWidget {
   /// The Decoration that should be applied to the input
   final InputDecoration inputDecoration;
 
+  /// Controls the text being edited.
+  ///
+  /// If null, this widget will create its own [TextEditingController] and
+  /// initialize its [TextEditingController.text] with [initialValue].
+  final TextEditingController? controller;
+
   /// Constructor for [MarkdownTextInput]
-  MarkdownTextInput(
-    this.onTextChanged,
-    this.initialValue, {
-    this.label = '',
-    this.validators,
+  MarkdownTextInput({
+    @Deprecated('Use controller.addListner instead).') this.onTextChanged,
+    this.initialValue,
+    @Deprecated('Use inputDecoration.hintText instead).') this.label = '',
+    this.validator,
     this.textDirection = TextDirection.ltr,
     this.maxLines = 10,
     this.inputDecoration = const InputDecoration(),
+    this.controller,
   });
 
   @override
@@ -41,7 +47,7 @@ class MarkdownTextInput extends StatefulWidget {
 }
 
 class _MarkdownTextInputState extends State<MarkdownTextInput> {
-  final _controller = TextEditingController();
+  late final TextEditingController _controller;
   final FocusNode _focus = FocusNode();
   TextSelection textSelection = const TextSelection(baseOffset: 0, extentOffset: 0);
 
@@ -63,10 +69,11 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
 
   @override
   void initState() {
-    _controller.text = widget.initialValue;
+    _controller = widget.controller ?? TextEditingController();
+    _controller.text = widget.initialValue ?? '';
     _controller.addListener(() {
       if (_controller.selection.baseOffset != -1) textSelection = _controller.selection;
-      widget.onTextChanged(_controller.text);
+      widget.onTextChanged?.call(_controller.text);
     });
     super.initState();
   }
@@ -96,7 +103,7 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
             maxLines: widget.maxLines,
             controller: _controller,
             textCapitalization: TextCapitalization.sentences,
-            validator: (value) => widget.validators!(value),
+            validator: widget.validator,
             textDirection: widget.textDirection,
             decoration: InputDecoration(
               border: InputBorder.none,
