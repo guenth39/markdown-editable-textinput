@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown_editable_textinput/markdown_text_input.dart';
+import 'package:markdown_editable_textinput/markdown_editable_textinput.dart';
 
 void main() => runApp(MyApp());
 
@@ -50,6 +50,15 @@ class _MyAppState extends State<MyApp> {
               borderRadius: BorderRadius.all(Radius.circular(4.0)),
             ),
           ),
+          tabBarTheme: TabBarTheme(
+            labelColor: const Color(0xFF2C1C6B),
+            unselectedLabelColor: Color(0xff000000),
+            indicator: UnderlineTabIndicator(
+              borderSide: BorderSide(
+                color: const Color(0xFF2C1C6B),
+              ),
+            ),
+          ),
         ),
         child: Scaffold(
           appBar: AppBar(
@@ -59,44 +68,52 @@ class _MyAppState extends State<MyApp> {
             child: GestureDetector(
               onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: ListView(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 100,
+                  horizontal: 15,
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 100),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: MarkdownTextInput(
-                              initialValue: description,
-                              controller: _controller,
-                              onTextChanged: (String value) =>
-                                  setState(() => description = value),
-                              maxLines: 8,
-                              inputDecoration: InputDecoration(
-                                hintText: 'What to type here?',
-                                labelText: 'Nice Label',
-                                helperText: 'Some Helper text',
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          // height: 400,
+                          child: MarkdownTextInput(
+                            initialValue: description,
+                            controller: _controller,
+                            onTextChanged: (String value) =>
+                                setState(() => description = value),
+                            inputDecoration: InputDecoration(
+                              hintText: 'What to type here?',
+                              labelText: 'Nice Label',
+                              helperText: 'Some Helper text',
+                              contentPadding: EdgeInsets.all(0),
+                            ),
+                            validator: (text) =>
+                                text != null && text.length > 20
+                                    ? 'Text to Long!'
+                                    : null,
+                            previewOptions: PreviewOptions(
+                              editorTabLabel: 'MyCustomEditorLabel',
+                              previewBuilder: (context, value, child) =>
+                                  Markdown(
+                                data: value,
                               ),
-                              validator: (text) =>
-                                  text != null && text.length > 20
-                                      ? 'Text to Long!'
-                                      : null,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: MarkdownBody(
-                              data: description,
-                              shrinkWrap: true,
-                            ),
-                          ),
-                        ],
+                        ),
                       ),
-                    )
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10),
+                      child: MarkdownBody(
+                        data: description,
+                        shrinkWrap: true,
+                      ),
+                    ),
                   ],
                 ),
               ),
