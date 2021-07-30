@@ -32,8 +32,12 @@ class MarkdownTextInput extends StatefulWidget {
   /// initialize its [TextEditingController.text] with [initialValue].
   final TextEditingController? controller;
 
+  ///Defines the way the preview is added to the Input
+  ///
+  ///if [Null] now Preview and now TabBar isn shown
   final PreviewOptions? previewOptions;
 
+  ///Defines the [Padding] around the TextField and Preview
   final EdgeInsetsGeometry innerPadding;
 
   /// Constructor for [MarkdownTextInput]
@@ -181,53 +185,59 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
             Divider(
               height: 8,
             ),
-            Row(
-              children: [
-                OptionButton(
-                  key: const Key('bold_button'),
-                  onPressed: () => onTap(MarkdownType.bold),
-                  enabled: _inputDecoration.enabled,
-                  child: Icon(
-                    Icons.format_bold,
-                  ),
-                ),
-                OptionButton(
-                  key: const Key('italic_button'),
-                  onPressed: () => onTap(MarkdownType.italic),
-                  enabled: _inputDecoration.enabled,
-                  child: const Icon(
-                    Icons.format_italic,
-                  ),
-                ),
-                for (int i = 1; i <= 3; i++)
-                  OptionButton(
-                    key: Key('H${i}_button'),
-                    onPressed: () => onTap(MarkdownType.title, titleSize: i),
-                    enabled: _inputDecoration.enabled,
-                    child: Text(
-                      'H$i',
-                      style: TextStyle(
-                          fontSize: (18 - i).toDouble(),
-                          fontWeight: FontWeight.w700),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    OptionButton(
+                      key: const Key('bold_button'),
+                      onPressed: () => onTap(MarkdownType.bold),
+                      enabled: _inputDecoration.enabled,
+                      child: Icon(
+                        Icons.format_bold,
+                      ),
                     ),
-                  ),
-                OptionButton(
-                  key: const Key('link_button'),
-                  onPressed: () => onTap(MarkdownType.link),
-                  enabled: _inputDecoration.enabled,
-                  child: const Icon(
-                    Icons.link,
-                  ),
+                    OptionButton(
+                      key: const Key('italic_button'),
+                      onPressed: () => onTap(MarkdownType.italic),
+                      enabled: _inputDecoration.enabled,
+                      child: const Icon(
+                        Icons.format_italic,
+                      ),
+                    ),
+                    for (int i = 1; i <= 3; i++)
+                      OptionButton(
+                        key: Key('H${i}_button'),
+                        onPressed: () => onTap(MarkdownType.title, titleSize: i),
+                        enabled: _inputDecoration.enabled,
+                        child: Text(
+                          'H$i',
+                          style: TextStyle(
+                              fontSize: (18 - i).toDouble(),
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                    OptionButton(
+                      key: const Key('link_button'),
+                      onPressed: () => onTap(MarkdownType.link),
+                      enabled: _inputDecoration.enabled,
+                      child: const Icon(
+                        Icons.link,
+                      ),
+                    ),
+                    OptionButton(
+                      key: const Key('list_button'),
+                      onPressed: () => onTap(MarkdownType.list),
+                      enabled: _inputDecoration.enabled,
+                      child: const Icon(
+                        Icons.list,
+                      ),
+                    ),
+                  ],
                 ),
-                OptionButton(
-                  key: const Key('list_button'),
-                  onPressed: () => onTap(MarkdownType.list),
-                  enabled: _inputDecoration.enabled,
-                  child: const Icon(
-                    Icons.list,
-                  ),
-                ),
-              ],
+              ),
             )
           ],
         ),

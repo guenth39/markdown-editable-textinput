@@ -39,15 +39,13 @@ class _MyAppState extends State<MyApp> {
                 width: 1.0,
                 style: BorderStyle.solid,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
             ),
             border: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: const Color(0xFF2C1C6B),
-                width: 5.0,
+                width: 1.0,
                 style: BorderStyle.solid,
               ),
-              borderRadius: BorderRadius.all(Radius.circular(4.0)),
             ),
           ),
           tabBarTheme: TabBarTheme(
@@ -70,38 +68,35 @@ class _MyAppState extends State<MyApp> {
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: 100,
-                  horizontal: 15,
+                  horizontal: 150,
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          // height: 400,
-                          child: MarkdownTextInput(
-                            initialValue: description,
-                            controller: _controller,
-                            onTextChanged: (String value) =>
-                                setState(() => description = value),
-                            inputDecoration: InputDecoration(
-                              hintText: 'What to type here?',
-                              labelText: 'Nice Label',
-                              helperText: 'Some Helper text',
-                              contentPadding: EdgeInsets.all(0),
-                            ),
-                            validator: (text) =>
-                                text != null && text.length > 20
-                                    ? 'Text to Long!'
-                                    : null,
-                            previewOptions: PreviewOptions(
-                              editorTabLabel: 'MyCustomEditorLabel',
-                              previewBuilder: (context, value, child) =>
-                                  Markdown(
-                                data: value,
-                              ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: SizedBox(
+                        height: 400,
+                        child: MarkdownTextInput(
+                          initialValue: description,
+                          controller: _controller,
+                          onTextChanged: (String value) =>
+                              setState(() => description = value),
+                          inputDecoration: InputDecoration(
+                            hintText: 'What to type here?',
+                            labelText: 'Nice Label',
+                            helperText: 'Some Helper text',
+                          ),
+                          validator: (text) =>
+                              text != null && text.length > 20
+                                  ? 'Text to Long!'
+                                  : null,
+                          previewOptions: PreviewOptions(
+                            editorTabLabel: 'MyCustomEditorLabel',
+                            previewBuilder: (context, value, child) =>
+                                Markdown(
+                              data: value,
                             ),
                           ),
                         ),
