@@ -11,7 +11,9 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String description = 'My great package';
+  String description = '''My gr* eat package
+test
+hallo''';
   final _controller = TextEditingController();
 
   @override
@@ -70,46 +72,48 @@ class _MyAppState extends State<MyApp> {
                   vertical: 100,
                   horizontal: 150,
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                        height: 400,
-                        child: MarkdownTextInput(
-                          initialValue: description,
-                          controller: _controller,
-                          onTextChanged: (String value) =>
-                              setState(() => description = value),
-                          inputDecoration: InputDecoration(
-                            hintText: 'What to type here?',
-                            labelText: 'Nice Label',
-                            helperText: 'Some Helper text',
-                          ),
-                          validator: (text) =>
-                              text != null && text.length > 20
-                                  ? 'Text to Long!'
-                                  : null,
-                          previewOptions: PreviewOptions(
-                            editorTabLabel: 'MyCustomEditorLabel',
-                            previewBuilder: (context, value, child) =>
-                                Markdown(
-                              data: value,
+                child: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          height: 400,
+                          child: MarkdownTextInput(
+                            initialValue: description,
+                            controller: _controller,
+                            onTextChanged: (String value) =>
+                                setState(() => description = value),
+                            inputDecoration: InputDecoration(
+                              hintText: 'What to type here?',
+                              labelText: 'Nice Label',
+                              helperText: 'Some Helper text',
+                            ),
+                            validator: (text) =>
+                                text != null && text.length > 20
+                                    ? 'Text to Long!'
+                                    : null,
+                            previewOptions: PreviewOptions(
+                              editorTabLabel: 'MyCustomEditorLabel',
+                              previewBuilder: (context, value, child) =>
+                                  Markdown(
+                                data: value,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 10),
-                      child: MarkdownBody(
-                        data: description,
-                        shrinkWrap: true,
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10),
+                        child: MarkdownBody(
+                          data: description,
+                          shrinkWrap: true,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

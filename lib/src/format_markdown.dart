@@ -1,5 +1,63 @@
+import 'package:flutter/material.dart';
+
+import 'helper.dart';
+
+class Result {
+  String data;
+  TextSelection? selection;
+
+  Result({
+    required this.data,
+    this.selection,
+  });
+}
+
+typedef Result ApplyFormattingFunction(
+  String data,
+  TextSelection selection,
+);
+
 /// Use this class for converting String to [ResultMarkdown]
 class FormatMarkdown {
+  static Result applyFormatting({
+    required String data,
+    required TextSelection selection,
+    String? around,
+    String? befor,
+    String? everyLine,
+  }) {
+    final fromIndex = selection.baseOffset;
+    final toIndex = selection.extentOffset;
+    final selected = data.substring(fromIndex, toIndex);
+    var changedData = data;
+    int? moveselection;
+
+    if (around != null) {
+      changedData = '${selection.textBefore(data)}$around$selected$around${selection.textAfter(data)}';
+      moveselection = around.length;
+    }
+    if (befor != null) {
+      changedData = '${selection.textBefore(data)}$befor$selected${selection.textAfter(data)}';
+      moveselection = befor.length;
+    }
+    if (everyLine != null) {
+      print(data.contains('\n'));
+      final lineStart = selection.textBefore(data).lastIndexOf('\n') + 2;
+      changedData = data.insert(everyLine, lineStart);
+    }
+
+    if (moveselection != null)
+      selection = selection.copyWith(
+        baseOffset: selection.baseOffset + moveselection,
+        extentOffset: selection.extentOffset + moveselection,
+      );
+
+    return Result(
+      data: changedData,
+      selection: selection,
+    );
+  }
+
   /// Convert [data] part into [ResultMarkdown] from [type].
   /// Use [fromIndex] and [toIndex] for converting part of [data]
   /// [titleSize] is used for markdown titles
