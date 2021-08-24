@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:markdown_editable_textinput/markdown_text_input.dart';
+import 'package:markdown_editable_textinput/markdown_editable_textinput.dart';
 
 void main() {
   testWidgets('MarkdownTextInput has all buttons', (WidgetTester tester) async {
-    await tester.pumpWidget(MaterialApp(home: Scaffold(body: MarkdownTextInput(print, 'initial value'))));
+    await tester.pumpWidget(
+      MaterialApp(
+        home: Scaffold(
+          body: MarkdownTextInput(onTextChanged: print, initialValue: 'initial value'),
+        ),
+      ),
+    );
     final boldKey = const Key('bold_button');
     final italicKey = const Key('italic_button');
     final h1Key = const Key('H1_button');
@@ -25,11 +31,17 @@ void main() {
 
   testWidgets('MarkdownTextInput make bold from selection', (WidgetTester tester) async {
     var initialValue = 'initial value';
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(
+      MaterialApp(
         home: Scaffold(
-            body: MarkdownTextInput((String value) {
-      initialValue = value;
-    }, initialValue))));
+          body: MarkdownTextInput(
+              onTextChanged: (String value) {
+                initialValue = value;
+              },
+              initialValue: initialValue),
+        ),
+      ),
+    );
 
     final formfield = tester.widget<EditableText>(find.text(initialValue));
     formfield.controller.selection = TextSelection(baseOffset: 0, extentOffset: initialValue.length);
@@ -42,11 +54,17 @@ void main() {
 
   testWidgets('MarkdownTextInput make italic from selection', (WidgetTester tester) async {
     var initialValue = 'initial value';
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(
+      MaterialApp(
         home: Scaffold(
-            body: MarkdownTextInput((String value) {
-      initialValue = value;
-    }, initialValue))));
+          body: MarkdownTextInput(
+              onTextChanged: (String value) {
+                initialValue = value;
+              },
+              initialValue: initialValue),
+        ),
+      ),
+    );
 
     final formfield = tester.widget<EditableText>(find.text(initialValue));
     formfield.controller.selection = TextSelection(baseOffset: 0, extentOffset: initialValue.length);
@@ -59,11 +77,17 @@ void main() {
 
   testWidgets('MarkdownTextInput make H1 from selection', (WidgetTester tester) async {
     var initialValue = 'initial value';
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(
+      MaterialApp(
         home: Scaffold(
-            body: MarkdownTextInput((String value) {
-      initialValue = value;
-    }, initialValue))));
+          body: MarkdownTextInput(
+              onTextChanged: (String value) {
+                initialValue = value;
+              },
+              initialValue: initialValue),
+        ),
+      ),
+    );
 
     final formfield = tester.widget<EditableText>(find.text(initialValue));
     formfield.controller.selection = TextSelection(baseOffset: 0, extentOffset: initialValue.length);
@@ -76,11 +100,17 @@ void main() {
 
   testWidgets('MarkdownTextInput make H2 from selection', (WidgetTester tester) async {
     var initialValue = 'initial value';
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(
+      MaterialApp(
         home: Scaffold(
-            body: MarkdownTextInput((String value) {
-      initialValue = value;
-    }, initialValue))));
+          body: MarkdownTextInput(
+              onTextChanged: (String value) {
+                initialValue = value;
+              },
+              initialValue: initialValue),
+        ),
+      ),
+    );
 
     final formfield = tester.widget<EditableText>(find.text(initialValue));
     formfield.controller.selection = TextSelection(baseOffset: 0, extentOffset: initialValue.length);
@@ -93,11 +123,17 @@ void main() {
 
   testWidgets('MarkdownTextInput make H3 from selection', (WidgetTester tester) async {
     var initialValue = 'initial value';
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(
+      MaterialApp(
         home: Scaffold(
-            body: MarkdownTextInput((String value) {
-      initialValue = value;
-    }, initialValue))));
+          body: MarkdownTextInput(
+              onTextChanged: (String value) {
+                initialValue = value;
+              },
+              initialValue: initialValue),
+        ),
+      ),
+    );
 
     final formfield = tester.widget<EditableText>(find.text(initialValue));
     formfield.controller.selection = TextSelection(baseOffset: 0, extentOffset: initialValue.length);
@@ -110,11 +146,17 @@ void main() {
 
   testWidgets('MarkdownTextInput make link from selection', (WidgetTester tester) async {
     var initialValue = 'initial value';
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(
+      MaterialApp(
         home: Scaffold(
-            body: MarkdownTextInput((String value) {
-      initialValue = value;
-    }, initialValue))));
+          body: MarkdownTextInput(
+              onTextChanged: (String value) {
+                initialValue = value;
+              },
+              initialValue: initialValue),
+        ),
+      ),
+    );
 
     final formfield = tester.widget<EditableText>(find.text(initialValue));
     formfield.controller.selection = TextSelection(baseOffset: 0, extentOffset: initialValue.length);
@@ -127,11 +169,17 @@ void main() {
 
   testWidgets('MarkdownTextInput make list from selection', (WidgetTester tester) async {
     var initialValue = 'initial\nvalue';
-    await tester.pumpWidget(MaterialApp(
+    await tester.pumpWidget(
+      MaterialApp(
         home: Scaffold(
-            body: MarkdownTextInput((String value) {
-      initialValue = value;
-    }, initialValue))));
+          body: MarkdownTextInput(
+              onTextChanged: (String value) {
+                initialValue = value;
+              },
+              initialValue: initialValue),
+        ),
+      ),
+    );
 
     final formfield = tester.widget<EditableText>(find.text(initialValue));
     formfield.controller.selection = TextSelection(baseOffset: 0, extentOffset: initialValue.length);

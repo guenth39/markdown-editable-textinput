@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:markdown_editable_textinput/format_markdown.dart';
+import 'package:markdown_editable_textinput/markdown_editable_textinput.dart';
 
 void main() {
   group("test all convertToMarkdown function's cases", () {
