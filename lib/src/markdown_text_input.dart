@@ -86,8 +86,8 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
     _controller.addListener(() {
       if (_controller.selection.baseOffset != -1) textSelection = _controller.selection;
       widget.onTextChanged?.call(_controller.text);
+      setState(() {});
     });
-    setState(() {});
     super.initState();
   }
 
