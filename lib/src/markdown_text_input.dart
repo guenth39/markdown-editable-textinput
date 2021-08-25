@@ -43,9 +43,13 @@ class MarkdownTextInput extends StatefulWidget {
   ///Says if the Field should request focus after first rendering
   final bool autofocus;
 
-  //By providing a focus you can use this focus to request the
-  //focus of the textfield manually
+  ///By providing a focus you can use this focus to request the
+  ///focus of the textfield manually
   final FocusNode? focus;
+
+  ///   The maximum number of characters (Unicode scalar values) to allow in the
+  /// text field.
+  final int? maxLength;
 
   /// Constructor for [MarkdownTextInput]
   MarkdownTextInput({
@@ -62,6 +66,7 @@ class MarkdownTextInput extends StatefulWidget {
     this.innerPadding = const EdgeInsets.all(8.0),
     this.autofocus = false,
     this.focus,
+    this.maxLength,
   }) : super(key: key);
 
   @override
@@ -122,6 +127,7 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
       textCapitalization: TextCapitalization.sentences,
       validator: widget.validator,
       textDirection: widget.textDirection,
+      maxLength: widget.maxLength,
       decoration: InputDecoration(
         border: InputBorder.none,
         errorBorder: InputBorder.none,
