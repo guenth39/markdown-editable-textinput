@@ -45,6 +45,7 @@ class MarkdownTextInput extends StatefulWidget {
 
   /// Constructor for [MarkdownTextInput]
   MarkdownTextInput({
+    Key? key,
     @Deprecated('Use controller.addListner instead).') this.onTextChanged,
     this.initialValue,
     @Deprecated('Use inputDecoration.hintText instead).') this.label = '',
@@ -56,7 +57,7 @@ class MarkdownTextInput extends StatefulWidget {
     this.previewOptions,
     this.innerPadding = const EdgeInsets.all(8.0),
     this.autofocus = false,
-  });
+  }) : super(key: key);
 
   @override
   _MarkdownTextInputState createState() => _MarkdownTextInputState();
