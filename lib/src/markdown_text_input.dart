@@ -149,6 +149,10 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
         hintTextDirection: _inputDecoration.hintTextDirection,
         hintStyle: _inputDecoration.hintStyle,
         contentPadding: widget.innerPadding,
+        counter: _inputDecoration.counter,
+        counterStyle: _inputDecoration.counterStyle,
+        counterText: _inputDecoration.counterText,
+        semanticCounterText: _inputDecoration.semanticCounterText,
       ),
     );
     return DefaultTabController(
