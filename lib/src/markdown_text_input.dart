@@ -43,6 +43,10 @@ class MarkdownTextInput extends StatefulWidget {
   ///Says if the Field should request focus after first rendering
   final bool autofocus;
 
+  //By providing a focus you can use this focus to request the
+  //focus of the textfield manually
+  final FocusNode? focus;
+
   /// Constructor for [MarkdownTextInput]
   MarkdownTextInput({
     Key? key,
@@ -57,6 +61,7 @@ class MarkdownTextInput extends StatefulWidget {
     this.previewOptions,
     this.innerPadding = const EdgeInsets.all(8.0),
     this.autofocus = false,
+    this.focus,
   }) : super(key: key);
 
   @override
@@ -65,37 +70,32 @@ class MarkdownTextInput extends StatefulWidget {
 
 class _MarkdownTextInputState extends State<MarkdownTextInput> {
   late final TextEditingController _controller;
-  final FocusNode focus = FocusNode();
-  TextSelection textSelection =
-      const TextSelection(baseOffset: 0, extentOffset: 0);
+  late final FocusNode focus;
+  TextSelection textSelection = const TextSelection(baseOffset: 0, extentOffset: 0);
 
   void onTap(MarkdownType type, {int titleSize = 1}) {
     final basePosition = textSelection.baseOffset;
-    var noTextSelected =
-        (textSelection.baseOffset - textSelection.extentOffset) == 0;
+    var noTextSelected = (textSelection.baseOffset - textSelection.extentOffset) == 0;
 
-    final result = FormatMarkdown.convertToMarkdown(type, _controller.text,
-        textSelection.baseOffset, textSelection.extentOffset,
+    final result = FormatMarkdown.convertToMarkdown(
+        type, _controller.text, textSelection.baseOffset, textSelection.extentOffset,
         titleSize: titleSize);
 
-    _controller.value = _controller.value.copyWith(
-        text: result.data,
-        selection:
-            TextSelection.collapsed(offset: basePosition + result.cursorIndex));
+    _controller.value = _controller.value
+        .copyWith(text: result.data, selection: TextSelection.collapsed(offset: basePosition + result.cursorIndex));
 
     if (noTextSelected) {
-      _controller.selection = TextSelection.collapsed(
-          offset: _controller.selection.end - result.replaceCursorIndex);
+      _controller.selection = TextSelection.collapsed(offset: _controller.selection.end - result.replaceCursorIndex);
     }
   }
 
   @override
   void initState() {
+    focus = widget.focus ?? FocusNode();
     _controller = widget.controller ?? TextEditingController();
     _controller.text = widget.initialValue ?? '';
     _controller.addListener(() {
-      if (_controller.selection.baseOffset != -1)
-        textSelection = _controller.selection;
+      if (_controller.selection.baseOffset != -1) textSelection = _controller.selection;
       widget.onTextChanged?.call(_controller.text);
       setState(() {});
     });
@@ -110,8 +110,7 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
 
   @override
   Widget build(BuildContext context) {
-    final _inputDecoration = widget.inputDecoration
-      ..applyDefaults(Theme.of(context).inputDecorationTheme);
+    final _inputDecoration = widget.inputDecoration..applyDefaults(Theme.of(context).inputDecorationTheme);
 
     final formField = TextFormField(
       expands: true,
@@ -132,13 +131,10 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
         focusedErrorBorder: InputBorder.none,
         enabled: _inputDecoration.enabled,
         alignLabelWithHint: _inputDecoration.alignLabelWithHint,
-        labelText: _inputDecoration.floatingLabelBehavior ==
-                FloatingLabelBehavior.always
-            ? ''
-            : _inputDecoration.labelText,
+        labelText:
+            _inputDecoration.floatingLabelBehavior == FloatingLabelBehavior.always ? '' : _inputDecoration.labelText,
         labelStyle: _inputDecoration.labelStyle,
-        floatingLabelBehavior: (_inputDecoration.floatingLabelBehavior ==
-                    FloatingLabelBehavior.auto ||
+        floatingLabelBehavior: (_inputDecoration.floatingLabelBehavior == FloatingLabelBehavior.auto ||
                 _inputDecoration.floatingLabelBehavior == null)
             ? FloatingLabelBehavior.never
             : _inputDecoration.floatingLabelBehavior,
@@ -153,8 +149,7 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
       length: 2,
       child: InputDecorator(
         decoration: _inputDecoration.copyWith(
-          floatingLabelBehavior: (_inputDecoration.floatingLabelBehavior ==
-                          FloatingLabelBehavior.auto ||
+          floatingLabelBehavior: (_inputDecoration.floatingLabelBehavior == FloatingLabelBehavior.auto ||
                       _inputDecoration.floatingLabelBehavior == null) &&
                   !focus.hasFocus &&
                   _controller.text.isEmpty
@@ -179,8 +174,7 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
                     formField,
                     Padding(
                       padding: widget.innerPadding,
-                      child: widget.previewOptions!.previewBuilder
-                          .call(context, _controller.text, null),
+                      child: widget.previewOptions!.previewBuilder.call(context, _controller.text, null),
                     ),
                   ],
                 ),
@@ -217,14 +211,11 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
                     for (int i = 1; i <= 3; i++)
                       OptionButton(
                         key: Key('H${i}_button'),
-                        onPressed: () =>
-                            onTap(MarkdownType.title, titleSize: i),
+                        onPressed: () => onTap(MarkdownType.title, titleSize: i),
                         enabled: _inputDecoration.enabled,
                         child: Text(
                           'H$i',
-                          style: TextStyle(
-                              fontSize: (18 - i).toDouble(),
-                              fontWeight: FontWeight.w700),
+                          style: TextStyle(fontSize: (18 - i).toDouble(), fontWeight: FontWeight.w700),
                         ),
                       ),
                     OptionButton(
