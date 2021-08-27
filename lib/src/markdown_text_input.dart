@@ -47,9 +47,12 @@ class MarkdownTextInput extends StatefulWidget {
   ///focus of the textfield manually
   final FocusNode? focus;
 
-  ///   The maximum number of characters (Unicode scalar values) to allow in the
-  /// text field.
+  ///The maximum number of characters (Unicode scalar values) to allow in the
+  ///text field.
   final int? maxLength;
+
+  ///Here you can disable the disposeing of the provided controller
+  final bool autodispose;
 
   /// Constructor for [MarkdownTextInput]
   MarkdownTextInput({
@@ -67,6 +70,7 @@ class MarkdownTextInput extends StatefulWidget {
     this.autofocus = false,
     this.focus,
     this.maxLength,
+    this.autodispose = true,
   }) : super(key: key);
 
   @override
@@ -109,7 +113,7 @@ class _MarkdownTextInputState extends State<MarkdownTextInput> {
 
   @override
   void dispose() {
-    _controller.dispose();
+    if (widget.autodispose || widget.controller == null) _controller.dispose();
     super.dispose();
   }
 
